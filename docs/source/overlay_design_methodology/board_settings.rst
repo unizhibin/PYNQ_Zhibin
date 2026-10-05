@@ -14,9 +14,19 @@ here:
       
 The base design can be used as a starting point to create a new design.
 
-The VCK190 uses segmented configuration. Build
-``boards/VCK190/golden`` before ``boards/VCK190/base`` so that the overlay is
-compatible with the boot image.
+The VCK190 starts up in two steps. This is called segmented configuration.
+
+1. **Boot step.** When the board powers on, ``BOOT.BIN`` sets up the processor,
+   the memory and the NoC. These settings come from the *golden* design in
+   ``boards/VCK190/golden``. A PDI (Programmable Device Image) is the file that
+   configures a Versal device. The *golden PDI* (``golden_boot.pdi``) is the
+   fixed boot setup that every overlay must match.
+2. **Overlay step.** After Linux starts, PYNQ loads your overlay into the
+   programmable logic. This does not change the boot settings.
+
+Because the boot settings stay fixed, build ``boards/VCK190/golden`` first, then
+``boards/VCK190/base``. The base build checks that the overlay matches the golden
+design.
 
 
 Vivado board files
