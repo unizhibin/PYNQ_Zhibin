@@ -187,7 +187,7 @@ Next add instances of the coroutine to the default event loop
 
 .. code-block:: Python
 
-    tasks = [asyncio.ensure_future(button_to_led(i) for i in range(4)]
+    tasks = [asyncio.ensure_future(button_to_led(i)) for i in range(len(base.buttons))]
 
 Finally, running the event loop will cause the coroutines to be active. This
 code runs the event loop until an exception is thrown or the user interrupts the
