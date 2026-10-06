@@ -4,13 +4,18 @@ PYNQ Utils Module
 The PYNQ utils module includes helper functions for installing and testing
 packages that use PYNQ.
 
+The ``pynq.utils`` module is being deprecated and now wraps the ``pynqutils`` 
+package. In future please use ``pynqutils`` directly.
+
 Downloading Overlays with Setuptools
 ------------------------------------
 
 To avoid needing to put large bitstreams in source code repositories or on PyPI
 PYNQ supports the use of *link files*. A link file is a file with the extension
 ``.link`` and contains a JSON dictionary of shell or board name matched against
-the URL where the overlay can be downloaded, and the MD5 checksum of the file
+the URL where the overlay can be downloaded, and the MD5 checksum of the file.
+For Alveo cards the key is the name of the deployed shell (as reported by
+``pynq.Device.active_device.name``), and for Zynq boards it is the board name.
 
 .. code-block :: javascript
 
@@ -18,7 +23,7 @@ the URL where the overlay can be downloaded, and the MD5 checksum of the file
         "xilinx_u200_xdma_201830_2": { 
             "url": "https://link.to/u200.xclbin",
             "md5sum": "da1e100gh8e7becb810976e37875de38"
-        }
+        },
         "xilinx_u250_xdma_201830_2": {
             "url": "https://link.to/u250.xclbin",
             "md5sum": "1df38cf582c4c5d0c8e3ca38be8f1eb3"
