@@ -33,8 +33,9 @@ The most straightforward way of including non-python files is to add a
 `MANIFEST.in`_ to the project.
 
 In addition PYNQ provides two mechanisms that can be used to aid deployments of
-notebooks and large bitstreams - in particular xclbin files which can exceed
-100 MBs each.
+notebooks and large overlay files. These are particularly useful for Alveo
+xclbin files, which can exceed 100 MBs each, but they also work for other files
+such as ``.bit``, ``.hwh`` and ``.pdi``.
 
 Registering PYNQ Notebooks
 --------------------------
@@ -50,30 +51,37 @@ device.
 Link File Processing
 --------------------
 
-In place of xclbin files your repository can instead contain
-xclbin.link files which provide locations where xclbin files can be downloaded
-for particular shells. For more details on the link format see the 
-:ref:`pynq-utils` documentation. xclbin.link files alongside notebooks will be 
-resolved when the ``pynq get-notebooks`` command is run. If you would prefer 
-to have the xclbin files downloaded at package install time, we provide a 
-``download_overlays`` setuptools command that you can call as part of your 
-installation or the ``pynq.utils.build_py`` command which can be used in-place 
-of the regular ``build_py`` command to perform the downloading automatically.
+In place of large overlay files, your repository can instead contain ``.link``
+files, such as ``xclbin.link``, which provide locations where the real files (for
+example xclbin files) can be downloaded for particular devices or shells.
+For more details on the link format see the
+:ref:`pynq-utils` documentation. ``.link`` files alongside notebooks will be
+resolved when the ``pynq get-notebooks`` command is run. If you would prefer
+to have the files downloaded at package install time, we provide a
+``download_overlays`` setuptools command that you can call as part of your
+installation or the ``build_py`` command from ``pynqutils.setup_utils``, which can
+be used in-place of the regular ``build_py`` command to perform the downloading automatically.
 
-By default the ``download_overlays`` command will only download xclbin files
+By default the ``download_overlays`` command will only download files
 for the boards installed in the machine. This can be overridden with
 the ``--download-all`` option.
+
+.. note::
+
+   ``pynq.utils.build_py`` is deprecated and emits a
+   ``DeprecationWarning`` when used. Use ``pynqutils.setup_utils.build_py``
+   instead, as shown in the example below.
 
 Example Setup Script
 --------------------
 
-An example of using pip's **setup.py** file which delivers xclbin files and
-notebooks using the PYNQ mechanisms is show below.
+An example of using pip's **setup.py** file which delivers xclbin or large 
+overlay files and notebooks using the PYNQ mechanisms is shown below.
 
 .. code-block :: python
 
    from setuptools import setup, find_packages
-   from pynq.utils import build_py
+   from pynqutils.setup_utils import build_py
    import new_overlay
 
    setup(
@@ -84,12 +92,12 @@ notebooks using the PYNQ mechanisms is show below.
       author = "Your Name",
       author_email = "your@email.com",
       packages = find_packages(),
-      inlcude_package_data=True,
+      include_package_data=True,
       install_requires=[
           'pynq'
       ],
       setup_requires=[
-          'pynq'
+          'pynqutils'
       ],
       entry_points={
           'pynq.notebooks': [
@@ -110,21 +118,21 @@ look like
 
 If you want to have users be able to install your package without first
 installing PYNQ, you will also need to create a *pyproject.toml* file as
-specified in `PEP 518`_. This is used to specify that PYNQ needs to be
-installed prior to the setup script running so that ``pynq.utils.build_py`` is
-available for importing. The ``setuptools`` and ``wheel`` are required by
+specified in `PEP 518`_. This is used to specify that ``pynqutils`` needs to 
+be installed prior to the setup script running so that ``pynqutils.setup_utils.build_py``
+is available for importing. The ``setuptools`` and ``wheel`` are required by
 the build system so we'll add those to the list as well.
 
 .. code-block :: python
 
     [build-system]
-    requires = ["setuptools", "wheel", "pynq>=2.5.1"]
+    requires = ["setuptools", "wheel", "pynqutils"]
 
 Registering Overlays Path
 -------------------------
 
 If you have overlays in your package, and you want to reference them without the
-absolute path. You can register the absolute path in in the setup.py by creating
+absolute path, you can register the absolute path in the setup.py by creating
 a ``pynq.overlays`` entry point. The key part of the entry point specifies the
 name of the folder where the overlays will be located.
 
@@ -144,7 +152,7 @@ version-control the following files anymore:
 
 * overlay files (e.g., `base.bit`, `base.hwh`), 
 
-* bsp folders(e.g., `bsp_iop_pmod`)
+* BSP folders (e.g., `bsp_iop_pmod`)
 
 * MicroBlaze binaries (e.g., `pmod_adc.bin`)
 
@@ -161,6 +169,24 @@ are shown below:
 To get those files manually, users can simply run the `build.sh` located 
 at the root of the PYNQ repository (make sure you have the correct version of
 Xilinx tools beforehand).
+
+.. note::
+
+   ``build.sh`` only builds the files needed for the source
+   distribution of the ``pynq`` library itself: the ZCU104 ``base`` overlay and
+   the Pmod MicroBlaze BSP generated from it. It does **not** build the base
+   overlay for any other board, including the VCK190.
+
+   The VCK190 ``base`` overlay is not included in the repository either:
+   ``boards/VCK190/base`` only contains the Makefile and the Tcl and Python
+   sources, so ``base.pdi`` and ``base.hwh`` do not exist until you build them.
+   To build them, run ``make`` in ``boards/VCK190/base`` (Vivado is
+   required). The base overlay is built against the VCK190 golden reference
+   design in ``boards/VCK190/golden``, so if the golden outputs do not exist
+   yet, ``make`` builds them first (``golden.xsa``, ``golden_boot.pdi``,
+   ``golden_noc.ncr`` and ``golden_routed.dcp``). It then produces
+   ``base.xsa``, ``base.pdi`` and ``base.hwh``, and runs the timing and
+   compatibility checks against golden.
 
 Once you have all the files, including the files mentioned above, you can
 package the entire GitHub repository into a source distribution package.
