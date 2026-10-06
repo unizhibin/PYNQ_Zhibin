@@ -11,15 +11,14 @@ can be called from Python using CFFI (C Foreign Function Interface).
 
 CFFI provides a simple way to interface with C code from Python. The CFFI
 package is preinstalled in the PYNQ image. It supports four modes, API and ABI,
-each with "in-line" or "out-of-line compilation". *Inline* ABI (Application
+each with "in-line" or "out-of-line" compilation. *Inline* ABI (Application
 Binary Interface) compatibility mode allows dynamic loading and running of
 functions from executable modules, and API mode allows building of C extension
 modules.
 
-
-The following example taken from
-http://docs.python-guide.org/en/latest/scenarios/clibs/ shows the ABI inline
-mode, calling the C function ``strlen()`` in from Python
+The following example, taken from
+https://docs.python-guide.org/scenarios/clibs/, shows the ABI inline
+mode, calling the C function ``strlen()`` from Python.
 
 C function prototype:
 
@@ -39,12 +38,12 @@ The C function prototype is passed to ``cdef()``, and can be called using
    length = clib.strlen(b"String to be evaluated.")
    print("{}".format(length))
 
-C functions inside a shared library can be called from Python using the C
-Foreign Function Interface (CFFI). The shared library can be compiled online
-using the CFFI from Python, or it can be compiled offline.
+C functions inside a shared library can be called from Python using CFFI.
+The shared library can be compiled online using CFFI from Python, or it
+can be compiled offline.
 
 For more information on CFFI and shared libraries refer to:
 
-http://cffi.readthedocs.io/en/latest/overview.html
+https://cffi.readthedocs.io/en/latest/overview.html
 
-http://www.tldp.org/HOWTO/Program-Library-HOWTO/shared-libraries.html
+https://tldp.org/HOWTO/Program-Library-HOWTO/shared-libraries.html

@@ -315,7 +315,8 @@ Application projects for Pmod peripherals can also be found in the same
 location. Each project is contained in a separate folder.
    
 The makefile compiles the application projects based on the BSP provided 
-in the correct location.
+in the correct location. This BSP must be generated first (see above); the
+Pmod makefile does not create it.
 
 The makefile requires Vitis to be installed, and can be run from Windows, or
 Linux.
