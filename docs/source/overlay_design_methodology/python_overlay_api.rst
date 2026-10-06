@@ -21,7 +21,7 @@ from the Python environment.
 The Default API
 ---------------
 
-When and Overlay is loaded using the :class:`pynq.overlay.Overlay` function
+When an Overlay is loaded using the :class:`pynq.overlay.Overlay` function
 all of the IP and hierarchies in the overlay will have drivers assigned to
 them and used to construct an object hierarchy. The IP can then be accessed
 via attributes on the returned overlay class using the names of the IP and
@@ -40,10 +40,10 @@ Customising Drivers
 
 While the default drivers are useful for getting started with new hardware in a
 design it is preferable to have a higher level driver for end users to interact
-with. Each of :class:`pynq.overlay.DefaultIP`,
-:class:`pynq.overlay.DefaultHierarchy` and :class:`pynq.overlay.Overlay` can be
-subclassed and automatically bound to elements of the block diagram. New drivers
-will only be bound when the overlay is reloaded.
+with. Each of :class:`pynq.overlay.DefaultIP` and
+:class:`pynq.overlay.DefaultHierarchy` can be subclassed and automatically
+bound to elements of the block diagram. New drivers will only be bound when the
+overlay is reloaded.
 
 Creating IP Drivers
 ^^^^^^^^^^^^^^^^^^^
@@ -92,10 +92,10 @@ A template for a hierarchy driver is as follows:
 Creating Custom Overlay Classes
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Finally the class changed from the :class:`pynq.overlay.Overlay` to provide a
-more suitable high-level API or provide overlay-specific initialisation.
-The overlay loader will look for a python file located alongside the
-bitstream and HWH files, import it and then call the ``Overlay`` function.
+Finally, :class:`pynq.overlay.Overlay` can be subclassed to provide a more
+suitable high-level API or overlay-specific initialisation. There is no loader
+for this, so the subclass is not picked up for you. Import it and create it
+yourself in place of ``Overlay``.
 
 A template for a custom overlay class is as follows:
 
@@ -109,7 +109,7 @@ A template for a custom overlay class is as follows:
 
             # Other initialisation
 
-    Overlay = MyOverlay
+
 
 Working with Physically Contiguous Memory
 -----------------------------------------
