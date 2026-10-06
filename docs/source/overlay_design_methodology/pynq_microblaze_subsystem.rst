@@ -18,11 +18,11 @@ processors running inside an overlay.
 Memory Architecture
 ===================
 
-Each PYNQ MicroBlaze has local memory (implemented in Xilinx BRAMs) and a 
+Each PYNQ MicroBlaze has local memory (implemented in block RAM, BRAMs) and a 
 connection to the PS DDR memory.
 
 The PYNQ MicroBlaze instruction and data memory is implemented in a dual port 
-Block RAM, with one port connected to the PYNQ MicroBlaze, and the other to 
+block RAM, with one port connected to the PYNQ MicroBlaze, and the other to 
 the ARM processor. This allows an executable binary file to be written from 
 the ARM to the PYNQ MicroBlaze instruction memory. The PYNQ MicroBlaze can 
 also be reset by the ARM, allowing the PYNQ MicroBlaze to start executing 
@@ -43,11 +43,11 @@ buffer.
 DDR Memory
 ----------
 
-The PYNQ MicroBlazes are connected to the DDR memory via the General Purpose 
-AXI slave port. This is a direct connection, so it is only suitable for simple 
-data transfers from the PYNQ MicroBlaze. The MicroBlaze can attempt to read
-or write the DDR as quickly as possible in a loop, but there is no support for
-bursts, or streaming data.
+The PYNQ MicroBlazes are connected to the DDR memory via an AXI slave port of
+the Processing System (PS). This is a direct connection, so it is only suitable
+for simple data transfers from the PYNQ MicroBlaze. The MicroBlaze can attempt
+to read or write the DDR as quickly as possible in a loop, but there is no
+support for bursts, or streaming data.
 
 PYNQ MicroBlaze Memory Map
 --------------------------
@@ -121,26 +121,47 @@ the local memory will be located at different addresses in each memory space.
 Some example mappings are shown below to highlight the address translation 
 between MicroBlaze and ARM's memory spaces.
 
+The ARM-side base address of each PYNQ MicroBlaze depends on the board's base
+overlay. For the ZCU104 base overlay (Zynq UltraScale+ MPSoC), the two Pmod
+PYNQ MicroBlazes are mapped as follows:
+
+
 =======================   =========================   ============================
 MicroBlaze Base Address    MicroBlaze Address Space    ARM Equivalent Address Space
 =======================   =========================   ============================
-0x4000_0000               0x0000_0000 - 0x0000_ffff   0x4000_0000 - 0x4000_ffff
-0x4200_0000               0x0000_0000 - 0x0000_ffff   0x4200_0000 - 0x4200_ffff
-0x4400_0000               0x0000_0000 - 0x0000_ffff   0x4400_0000 - 0x4400_ffff
+0x800A_0000               0x0000_0000 - 0x0000_ffff   0x800A_0000 - 0x800A_ffff
+0x800B_0000               0x0000_0000 - 0x0000_ffff   0x800B_0000 - 0x800B_ffff
 =======================   =========================   ============================
 
 Note that each MicroBlaze has the same range for its address space. However, 
-the location of the address space in the ARM memory map is different for each
+the location of the address space in the ARM memory map is different for each 
 PYNQ MicroBlaze. As the MicroBlaze address space is the same for each PYNQ 
 MicroBlaze, any binary compiled for one PYNQ MicroBlaze will work on another 
 PYNQ MicroBlaze.
 
-For example, suppose a PYNQ MicroBlaze exists at 0x4000_0000, and a second 
-PYNQ MicroBlaze exists at 0x4200_0000. The same binary can run on the first
+For example, suppose a PYNQ MicroBlaze exists at 0x800A_0000, and a second 
+PYNQ MicroBlaze exists at 0x800B_0000. The same binary can run on the first 
 PYNQ MicroBlaze by writing the binary from python to the address space 
-``0x4000_0000``, and on the second PYNQ MicroBlaze by writing to 
-``0x4200_0000``.
+``0x800A_0000``, and on the second PYNQ MicroBlaze by writing to 
+``0x800B_0000``.
 
+.. note::
+
+   The Zynq-7000 base overlays (PYNQ-Z1 and PYNQ-Z2, supported up to PYNQ
+   v3.1) use different addresses, because the Zynq-7000 PS maps its general
+   purpose AXI master ports starting at ``0x4000_0000``. Those overlays contain
+   three PYNQ MicroBlazes (Pmod A, Pmod B and Arduino):
+
+   =======================   =========================   ============================
+   MicroBlaze Base Address    MicroBlaze Address Space    ARM Equivalent Address Space
+   =======================   =========================   ============================
+   0x4000_0000 (Pmod A)      0x0000_0000 - 0x0000_ffff   0x4000_0000 - 0x4000_ffff
+   0x4200_0000 (Pmod B)      0x0000_0000 - 0x0000_ffff   0x4200_0000 - 0x4200_ffff
+   0x4400_0000 (Arduino)     0x0000_0000 - 0x0000_ffff   0x4400_0000 - 0x4400_ffff
+   =======================   =========================   ============================
+
+   Support for the PYNQ-Z1 and PYNQ-Z2 boards was removed in PYNQ v4.0. Use the
+   v3.1 documentation and images if you are working with those boards.
 
 Building Applications
 =====================
@@ -165,7 +186,7 @@ MicroBlaze Processors
 ---------------------
 
 As described in the previous section, a PYNQ MicroBlaze can be used as a 
-flexible controller for different types of external peripherals. The 
+flexible controller for different types of external peripherals. 
 The ARM® application processor runs PYNQ and Jupyter notebooks on Linux. This
 scenario is not well suited to real-time
 applications, which is a common requirement for an embedded systems. 
@@ -186,18 +207,18 @@ background, or real-time applications.
 Software Requirements
 ---------------------
 
-`Xilinx Vitis Unified Software Platform
-<https://www.xilinx.com/products/design-tools/vitis/vitis-platform.html>`_
+`AMD Vitis™ Unified Software Platform
+<https://www.amd.com/en/products/software/adaptive-socs-and-fpgas/vitis.html>`_
 contains the MicroBlaze cross-compiler which can be used to build software for
 the MicroBlaze inside a PYNQ MicroBlaze. `Vitis Unified Software Platform
-<https://www.xilinx.com/products/design-tools/vitis/vitis-platform.html>`_ is 
+<https://www.amd.com/en/products/software/adaptive-socs-and-fpgas/vitis.html>`_ is 
 available for free and includes Vivado.
 
 The full source code for all supported PYNQ MicroBlaze peripherals is available 
 from the project GitHub. PYNQ ships with precompiled PYNQ MicroBlaze 
 executables to support various peripherals (see :ref:`pynq-libraries`), 
-so Xilinx software is only needed if you intend to modify existing code, or 
-build your own PYNQ MicroBlaze applications/peripheral drivers.
+so AMD software (Vivado™ and Vitis™) is only needed if you intend to modify 
+existing code, or build your own PYNQ MicroBlaze applications/peripheral drivers.
 
 PYNQ releases are built using:
 
@@ -212,6 +233,7 @@ v2.6               2020.1 (Vitis)
 v2.7               2020.2 (Vitis)
 v3.0               2022.1 (Vitis)
 v3.1               2024.1 (Vitis)
+v4.0               2025.2 (Vitis)
 ================  ================
 
 It is recommended
@@ -253,10 +275,25 @@ Board Support Package
 ^^^^^^^^^^^^^^^^^^^^^
 
 A Board Support Package (BSP) includes software libraries for peripherals in
-the system. The BSP for the Pmod PYNQ MicroBlaze is:
+the system. The BSP for the Pmod PYNQ MicroBlaze is not checked in to the PYNQ
+repository, so it does not exist in a fresh clone. It is generated by the
+top-level ``build.mk`` into:
 
     ``<PYNQ repository>/pynq/lib/pmod/bsp_iop_pmod``
 
+The BSP is built from the hardware platform (``base.xsa``) of the ZCU104 base
+overlay. It is also included in the PYNQ source distribution. In ``build.mk``,
+the BSP is built in three steps:
+
+1. ``make XSA=../ZCU104/base/base.xsa`` is run in
+   ``<PYNQ repository>/boards/sw_repo``. This generates the BSP.
+2. The BSP is copied to ``<PYNQ repository>/pynq/lib/pmod/bsp_iop_pmod``, and
+   its ``iop_pmod0_mb`` folder is renamed to ``iop_pmoda_mb``.
+3. ``make`` is run in ``<PYNQ repository>/pynq/lib/pmod`` to build the Pmod
+   applications against the BSP.
+
+``base.xsa`` is created when you build the base overlay in
+``<PYNQ repository>/boards/ZCU104/base``, so do that first.
 
 A BSP is specific to a processor subsystem. There can be many BSPs associated
 with an overlay, depending on the types of processors available in the
