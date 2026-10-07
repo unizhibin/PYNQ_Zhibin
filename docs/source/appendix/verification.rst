@@ -26,7 +26,7 @@ To run all the collected tests in a single shot:
 .. code-block:: console
 
    cd /home/xilinx/pynq
-   sudo py.test –vsrw
+   sudo env "PATH=$PATH" py.test -vsrw
 
 For any given board, it is possible not to be able to use all the software drivers.
 For such cases, it is more common to run tests in a specific folder:
@@ -34,7 +34,7 @@ For such cases, it is more common to run tests in a specific folder:
 .. code-block:: console
 
    cd /home/xilinx/pynq/<driver_folder>
-   sudo py.test –vsrw
+   sudo env "PATH=$PATH" py.test -vsrw
 
 For a complete list of pytest options, please refer to `Usage and Invocations - Pytest <http://pytest.org/latest/usage.html>`_. 
 
@@ -46,7 +46,7 @@ For example:
 
 .. code-block:: console
 
-   Test trace analyzers? ([yes]/no)>>> yes
+   Pmod OLED attached to the board? ([yes]/no)>>> yes
 
 For the answer to such a question, "yes", "YES", "Yes", "y", and "Y" are acceptable; the same applies for "no" as an answer. You can also press *Enter*; this is equivalent to "yes".
 
