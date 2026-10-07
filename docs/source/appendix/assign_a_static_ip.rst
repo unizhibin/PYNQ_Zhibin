@@ -27,7 +27,7 @@ Windows
 * Double click on the network interface to open it, and click on *Properties*
 * Select Internet Protocol Version 4 (TCP/IPv4) and click *Properties*
 * Select *Use the following IP address*
-* Set the Ip address to 192.168.2.1 (or any other address in the same range as
+* Set the IP address to 192.168.2.1 (or any other address in the same range as
   the board)
 * Set the subnet mask to 255.255.255.0 and click **OK**
 
@@ -46,6 +46,37 @@ The other settings can be left blank.
 Linux
 -----
 
+Newer Ubuntu releases (18.04 and later, including 24.04) don't use
+/etc/network/interfaces any more. Pick the method that matches your system.
+
+On a desktop install, NetworkManager does the job. Go to Settings -> Network,
+click the gear next to your wired connection, open the IPv4 tab and choose
+Manual. Set the address to 192.168.2.1 and the netmask to 255.255.255.0, then
+click Apply. If you prefer the terminal (``nmcli connection show`` lists the
+connection names):
+
+.. code-block:: console
+
+   sudo nmcli connection modify "Wired connection 1" ipv4.method manual ipv4.addresses 192.168.2.1/24
+   sudo nmcli connection up "Wired connection 1"
+
+On a server install, use netplan. Run ``ip link`` to find the name of your
+Ethernet interface (it is often something like enp3s0, not eth0), then create
+/etc/netplan/99-pynq.yaml:
+
+.. code-block:: yaml
+
+   network:
+     version: 2
+     ethernets:
+       enp3s0:
+         dhcp4: false
+         addresses: [192.168.2.1/24]
+
+and apply it with ``sudo netplan apply``.
+
+On older systems that still use ifupdown, do this instead:
+
 * Edit this file (replace gedit with your preferred text editor):
 
    sudo gedit /etc/network/interfaces
@@ -57,7 +88,7 @@ The file usually looks like this:
 
       auto lo eth0
       iface lo inet loopback
-      iface eth0 inet dynamic
+      iface eth0 inet dhcp
 
 
 * Make the following change to set the eth0 interface to the static IP address
@@ -73,7 +104,6 @@ Your file should look like this:
 
    .. code-block:: console
    
-
       auto lo eth0
       iface lo inet loopback
       iface eth0 inet static
