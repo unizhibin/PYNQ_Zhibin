@@ -237,7 +237,7 @@ asyncio coroutine.
 
 .. code-block:: Python
 
-    async def interrupt_handler_async(self, value):
+    async def interrupt_handler_async(self):
         if self.iop.interrupt is None:
             raise RuntimeError('Interrupts not available in this Overlay')
         while(1):
