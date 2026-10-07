@@ -168,8 +168,8 @@ proxy variables on the board
 
    .. code-block:: console
    
-      set http_proxy=my_http_proxy:8080
-      set https_proxy=my_https_proxy:8080
+      export http_proxy=my_http_proxy:8080
+      export https_proxy=my_https_proxy:8080
 
 Board/Jupyter settings
 ======================
@@ -234,39 +234,39 @@ The Jupyter configuration file can be found at
 
    .. code-block:: console
    
-      /root/.jupyter/jupyter_notebook_config.py
+      /root/.jupyter/jupyter_server_config.py
 
-You can add or comment out the c.NotebookApp.password to bypass the password
-authentication when connecting to the Jupyter Portal.
+You can add or comment out the c.PasswordIdentityProvider.hashed_password to
+bypass the password authentication when connecting to the Jupyter Portal.
 
    .. code-block:: console
 
-      c.NotebookApp.password =u'sha1:6c2164fc2b22:ed55ecf07fc0f985ab46561483c0e888e8964ae6'
+      c.PasswordIdentityProvider.hashed_password = 'argon2:$argon2id$v=19$m=10240,t=10,p=8$fyT2tEvJiRV1z0StQ0CP4g$efAWIBpMF7MDFHLCTU/2PnxVtMLPSJ/IlRh7qvRXBAA'
 
 
 How do I change the Jupyter notebook password
 ---------------------------------------------
 
-A hashed password is saved in the Jupyter Notebook configuration file.
+A hashed password is saved in the Jupyter Server configuration file.
 
    .. code-block:: console
 
-      /root/.jupyter/jupyter_notebook_config.py
+      /root/.jupyter/jupyter_server_config.py
 
-You can create a hashed password using the function ``IPython.lib.passwd()``:
+You can create a hashed password using the function ``jupyter_server.auth.passwd()``:
 
    .. code-block:: python
    
-      from IPython.lib import passwd
+      from jupyter_server.auth import passwd
       password = passwd("secret")
-      6c2164fc2b22:ed55ecf07fc0f985ab46561483c0e888e8964ae6
+      # argon2:$argon2id$v=19$m=10240,t=10,p=8$fyT2tEvJiRV1z0StQ0CP4g$efAWIBpMF7MDFHLCTU/2PnxVtMLPSJ/IlRh7qvRXBAA
 
 
-You can then add or modify the line in the `jupyter_notebook_config.py` file
+You can then add or modify the line in the `jupyter_server_config.py` file
 
    .. code-block:: console
 
-      c.NotebookApp.password =u'sha1:6c2164fc2b22:ed55ecf07fc0f985ab46561483c0e888e8964ae6'
+      c.PasswordIdentityProvider.hashed_password = 'argon2:$argon2id$v=19$m=10240,t=10,p=8$fyT2tEvJiRV1z0StQ0CP4g$efAWIBpMF7MDFHLCTU/2PnxVtMLPSJ/IlRh7qvRXBAA'
      
 
 General Questions
@@ -275,16 +275,16 @@ General Questions
 Does PYNQ support Python 2.7?
 -----------------------------
 
-The PYNQ image is based on Ubuntu which includes Python 2.7 in the root file 
-system. The Python package *pynq*, however, is based on Python 3.6; 
-this python package is not compatible with Python 2.7.
+No. The PYNQ image is based on Ubuntu 24.04, which does not include Python 2.7
+in the root file system. The Python package *pynq* requires Python 3 (the image
+uses Python 3.12); this python package is not compatible with Python 2.7.
 
 Where can I find the overlay bitstreams?
 ----------------------------------------
 In order to keep a reasonable Github repository size, starting from image v2.5,
 we no longer store bitstreams in our Github repository. 
-Instead, we provide a simple script allowing users to build the bitstreams 
-by themselves. This script
+Instead, we provide a simple script allowing users to build the ZCU104 base
+overlay bitstream by themselves. This script
 (`build.sh`) is located at the root of the PYNQ repository. To run this
 script, make sure you have Vivado and Vitis installed on your Ubuntu machine, 
 and run:
@@ -293,7 +293,9 @@ and run:
 
       ./build.sh
 
-If you are using our SD build flow, this step will be run automatically.
+To build the bitstream of any other overlay, run ``make`` in the overlay folder
+under ``boards/``. If you are using our SD build flow, the bitstream of the
+board's boot overlay is built automatically if it is missing.
 
 Where can I find the MicroBlaze bin files?
 ------------------------------------------
