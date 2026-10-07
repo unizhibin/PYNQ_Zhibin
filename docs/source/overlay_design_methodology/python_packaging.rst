@@ -111,10 +111,10 @@ overlay files and notebooks using the PYNQ mechanisms is shown below.
 A corresponding **MANIFEST.in** to add the notebooks and bitstreams files would
 look like
 
-.. code-block :: python
+.. code-block :: text
 
    recursive-include new_overlay/notebooks *
-   recursive-include new_overlay *.bit *.hwh
+   recursive-include new_overlay *.bit *.hwh *.pdi
 
 If you want to have users be able to install your package without first
 installing PYNQ, you will also need to create a *pyproject.toml* file as
@@ -123,7 +123,7 @@ be installed prior to the setup script running so that ``pynqutils.setup_utils.b
 is available for importing. The ``setuptools`` and ``wheel`` are required by
 the build system so we'll add those to the list as well.
 
-.. code-block :: python
+.. code-block :: text
 
     [build-system]
     requires = ["setuptools", "wheel", "pynqutils"]

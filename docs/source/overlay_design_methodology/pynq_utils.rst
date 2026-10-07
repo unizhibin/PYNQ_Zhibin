@@ -97,7 +97,7 @@ part of a suite of pytests.
 
 .. code-block :: python
 
-    from pynqutils import run_notebook
+    from pynqutils.runtime import run_notebook
     from os import path
 
     NOTEBOOK_PATH = path.join(path.dirname(__file__), 'notebooks')
