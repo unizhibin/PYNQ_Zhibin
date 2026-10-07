@@ -161,12 +161,12 @@ GPIO Peripherals
 
 User I/O peripherals can trigger interrupts when switches are toggled or buttons
 are pressed. When the buttons and switches are connected to an AXI GPIO input
-channel, as in the base overlay, each wire has a function ``wait_for_value`` and
-a coroutine ``wait_for_value_async`` which block until the corresponding button
-or switch has the specified value. These require the interrupt of the AXI GPIO
-IP to be connected, otherwise a ``RuntimeError`` is raised. This follows a
-convention throughout the pynq package that coroutines have an ``_async``
-suffix.
+channel, as in the base overlay, each wire has a function ``wait_for_value``,
+which blocks, and a coroutine ``wait_for_value_async``, which only suspends
+the calling task, until the corresponding button or switch has the specified value.
+Both require the interrupt of the AXI GPIO IP to be connected, otherwise 
+a ``RuntimeError`` is raised. This follows a convention throughout the pynq
+package that coroutines have an ``_async`` suffix.
 
 As an example, consider an application where each LED will light up when the
 corresponding button is pressed. First a coroutine specifying this functionality
