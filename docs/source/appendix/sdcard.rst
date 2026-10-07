@@ -15,7 +15,7 @@ Windows
 * Extract the *Win32DiskImager* executable from the zip file and run the
   Win32DiskImager utility as administrator. (Right-click on the file, and select
   Run as administrator.)
-* Select the downloaded PYNQ image file (.img).
+* Extract the downloaded PYNQ image zip file to get the image file (.img).
 * Select the drive letter of the SD card. Be careful to select the correct
   drive. If you select the wrong drive you can overwrite data on that
   drive. This could be another USB stick, or memory card connected to your
