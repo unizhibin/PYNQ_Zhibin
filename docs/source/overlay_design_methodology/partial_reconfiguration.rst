@@ -35,7 +35,7 @@ an overlay object.
 .. code-block:: python
    
    from pynq import Overlay
-   overlay = Overlay("full_bistream.bit")
+   overlay = Overlay("full_bitstream.bit")
    
 To download the full bitstream again:
 
