@@ -20,6 +20,6 @@ The produced view dictionary has the type:
 
 
 .. automodule:: pynq.metadata.ip_dict_view
-    :members:
+    :members: IpDictView
     :undoc-members:
     :show-inheritance:

@@ -14,6 +14,6 @@ The PS is the root of this hierarchy and is unnamed.
 
 
 .. automodule:: pynq.metadata.interrupt_controllers_view
-    :members:
+    :members: InterruptControllersView
     :undoc-members:
     :show-inheritance:

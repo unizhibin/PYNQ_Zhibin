@@ -10,6 +10,6 @@ such as the XRT allocation information for each memory.
 
 
 .. automodule:: pynq.metadata.mem_dict_view
-    :members:
+    :members: MemDictView
     :undoc-members:
     :show-inheritance:

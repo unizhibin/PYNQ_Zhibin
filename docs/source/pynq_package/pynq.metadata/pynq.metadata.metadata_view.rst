@@ -8,6 +8,6 @@ setters and iterators. In PYNQ users are not supposed to access the metadata dir
 via this class.
 
 .. automodule:: pynq.metadata.metadata_view
-    :members:
+    :members: MetadataView
     :undoc-members:
     :show-inheritance:

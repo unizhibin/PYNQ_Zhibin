@@ -12,6 +12,6 @@ the keys are the names of the pin and each entry contains:
 
 
 .. automodule:: pynq.metadata.gpio_dict_view
-    :members:
+    :members: GpioDictView
     :undoc-members:
     :show-inheritance:

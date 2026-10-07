@@ -22,6 +22,6 @@ However, this is not currently fully supported in the latest release of PYNQ, so
 deep copies of these dictionaries are made. 
 
 .. automodule:: pynq.metadata.runtime_metadata_parser
-    :members:
+    :members: RuntimeMetadataParser
     :undoc-members:
     :show-inheritance:

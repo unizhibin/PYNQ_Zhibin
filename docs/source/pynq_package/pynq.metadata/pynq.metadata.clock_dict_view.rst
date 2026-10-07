@@ -12,6 +12,6 @@ the key is the index for the clock and the values contain:
 * ``divisor1`` : ``int`` divisor value for the clock
 
 .. automodule:: pynq.metadata.clock_dict_view
-    :members:
+    :members: ClockDictView
     :undoc-members:
     :show-inheritance:

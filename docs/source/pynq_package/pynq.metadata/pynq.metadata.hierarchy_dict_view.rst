@@ -32,6 +32,6 @@ entry contains:
 
 
 .. automodule:: pynq.metadata.hierarchy_dict_view
-    :members:
+    :members: HierarchyDictView
     :undoc-members:
     :show-inheritance:
