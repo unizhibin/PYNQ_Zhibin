@@ -18,7 +18,7 @@ H-R
 ===
    
   HDF
-   Hardware Definition File (.hdf). This file is created by Vivado and contains information about a processor system in an FPGA overlay. The HDF specifies the peripherals that exist in the system, and the memory map. This is used by the BSP to build software libraries to support the available peripherals.
+   Hardware Definition File (.hdf). This file is created by Vivado and contains information about a processor system in an FPGA overlay. The HDF specifies the peripherals that exist in the system, and the memory map. This is used by the BSP to build software libraries to support the available peripherals. The HDF is obsolete and has been replaced by the XSA.
 
   I2C
     See IIC
@@ -36,9 +36,14 @@ H-R
   MicroBlaze
    `MicroBlaze <https://en.wikipedia.org/wiki/MicroBlaze>`_ is a soft microprocessor core designed for Xilinx FPGAs. As a soft-core processor, MicroBlaze is implemented entirely in the general-purpose memory and logic fabric of an FPGA.
    
-   
+  PDI
+   Programmable Device Image (.pdi). The Versal equivalent of a bitstream. PYNQ loads an overlay PDI on top of the boot PDI that was programmed when the device booted. See Versal.
+
   Pmod Interface
    The Pmod or `Peripheral Module <https://digilent.com/reference/_media/reference/pmod/digilent-pmod-interface-specification.pdf>`_ interface is used to connect low frequency, low I/O pin count peripheral modules to host controller boards.accessory boards to add functionality to the platform. e.g. ADC, DAC, I/O interfaces, sensors etc.
+
+  PYNQ.remote
+   An extension to the PYNQ framework that enables remote control of AMD FPGA-based devices. The Python API runs on a host machine and communicates with the target device via gRPC.
 
   (Micro) SD
    Secure Digital (Memory Card standard)
@@ -67,25 +72,34 @@ S-Z
   UART
    Universal asynchronous receiver/transmitter; Serial communication protocol
 
+  Versal
+   AMD Versal Adaptive SoC family, supported by PYNQ from version 4.0 (for example the VCK190 board). Versal overlays are loaded as PDI files. See PDI.
+
   Vitis
-   `Xilinx Vitis Unified Software Platform <https://www.xilinx.com/products/design-tools/vitis.html>`_ enables the development of embedded software and accelerated applications on heterogeneous Xilinx platforms including FPGAs, SoCs, and Versal ACAPs. Also includes debug, and profiling tools. 
+   `Xilinx Vitis Unified Software Platform <https://www.amd.com/en/products/software/adaptive-socs-and-fpgas/vitis.html>`_ enables the development of embedded software and accelerated applications on heterogeneous Xilinx platforms including FPGAs, SoCs, and Versal ACAPs. Also includes debug, and profiling tools. 
    Required to build software for a MicroBlaze processor inside an IOP. 
 
 
   Vivado
-   `Vivado Design Suite <http://www.xilinx.com/products/design-tools/vivado.html>`_ is a suite of computer-aided design tools provided by Xilinx for creating FPGA designs.  It is used to design and implement the overlays used in Pynq.
+   `Vivado Design Suite <https://www.amd.com/en/products/software/adaptive-socs-and-fpgas/vivado.html>`_ is a suite of computer-aided design tools provided by Xilinx for creating FPGA designs.  It is used to design and implement the overlays used in Pynq.
    
   XADC
-   An `XADC <http://www.xilinx.com/support/documentation/user_guides/ug480_7Series_XADC.pdf>`_ is a hard IP block that consists of dual 12-bit, 1 Mega sample per second (MSPS), analog-to-digital converters and on-chip sensors which are integrated into Xilinx 7 series FPGA devices
+   An `XADC <https://docs.amd.com/r/en-US/ug480_7Series_XADC/7-Series-FPGAs-and-Zynq-7000-SoC-XADC-Dual-12-Bit-1-MSPS-Analog-to-Digital-Converter-User-Guide-UG480>`_ is a hard IP block that consists of dual 12-bit, 1 Mega sample per second (MSPS), analog-to-digital converters and on-chip sensors which are integrated into Xilinx 7 series FPGA devices
+
+  XRT
+   FleXible RunTime; a combination of userspace and kernel driver components that provides an abstracted software interface to AMD FPGA devices. PYNQ uses XRT to allocate memory shared with the programmable logic.
+
+  XSA
+   File format (.xsa) created by Vivado that describes a hardware design, including the processor system, the peripherals that exist in the system, and the memory map. The XSA replaces the HDF. PYNQ supports parsing XSA files from version 3.0.
 
   Zynq®
-   `Zynq-7000 All Programmable SoC (APSoC) devices <http://www.xilinx.com/products/silicon-devices/soc/zynq-7000.html>`_ integrate the software programmability of an ARM®-based processor with the hardware programmability of an FPGA, enabling key analytics and hardware acceleration while integrating CPU, DSP, ASSP, and mixed signal functionality on a single device. Zynq-7000 AP SoCs infuse customizable intelligence into today’s embedded systems to suit your unique application requirements
+   `Zynq-7000 All Programmable SoC (APSoC) devices <https://www.amd.com/en/products/adaptive-socs-and-fpgas/soc/zynq-7000.html>`_ integrate the software programmability of an ARM®-based processor with the hardware programmability of an FPGA, enabling key analytics and hardware acceleration while integrating CPU, DSP, ASSP, and mixed signal functionality on a single device. Zynq-7000 AP SoCs infuse customizable intelligence into today’s embedded systems to suit your unique application requirements
 
   Zynq® UltraScale+™ MPSoC
-   `Zynq® UltraScale+™ MPSoC devices <https://www.xilinx.com/products/silicon-devices/soc/zynq-ultrascale-mpsoc.html>`_ provide 64-bit processor scalability while combining real-time control with soft and hard engines for graphics, video, waveform, and packet processing. Built on a common real-time processor and programmable logic equipped platform, three distinct variants include dual application processor (CG) devices, quad application processor and GPU (EG) devices, and video codec (EV) devices, creating unlimited possibilities for applications such as 5G Wireless, next generation ADAS, and Industrial Internet-of-Things.
+   `Zynq® UltraScale+™ MPSoC devices <https://www.amd.com/en/products/adaptive-socs-and-fpgas/soc/zynq-ultrascale-plus-mpsoc.html>`_ provide 64-bit processor scalability while combining real-time control with soft and hard engines for graphics, video, waveform, and packet processing. Built on a common real-time processor and programmable logic equipped platform, three distinct variants include dual application processor (CG) devices, quad application processor and GPU (EG) devices, and video codec (EV) devices, creating unlimited possibilities for applications such as 5G Wireless, next generation ADAS, and Industrial Internet-of-Things.
    
   Zynq PL
    Programmable Logic - FPGA fabric
 
   Zynq PS
-   Processing System - SOC processing subsystem built around dual-core, ARM Cortex-A9 processor
+   Processing System - SOC processing subsystem built around the ARM application processors of the device
