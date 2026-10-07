@@ -212,7 +212,7 @@ For example:
 
 .. code-block:: Python
 
-    def __init__(self)
+    def __init__(self):
         self.iop = pynq.lib.PynqMicroblaze(mb_info, IOP_EXECUTABLE)
         if self.iop.interrupt is None:
            warn("Interrupts not available in this Overlay")
