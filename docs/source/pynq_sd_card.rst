@@ -198,10 +198,13 @@ of the board directory. All paths in it are relative to the board directory.
 Variable                                 Meaning
 =========================== ============ ======================================
 ``ARCH_<BOARD>``            required     ``aarch64``
-``BITSTREAM_<BOARD>``       optional     Overlay loaded at boot, for example
+``BITSTREAM_<BOARD>``       optional     The overlay file to build, for example
                                          ``base/base.bit`` or ``base/base.pdi``.
-                                         Leave unset for a board with no boot
-                                         overlay
+                                         If missing, ``make`` is run in its
+                                         folder to create it. This does not
+                                         affect ``BOOT.BIN`` or what loads at
+                                         boot. Leave unset if there is nothing
+                                         to build
 ``FPGA_MANAGER_<BOARD>``    optional     ``1`` to program the PL through the
                                          FPGA manager. Defaults to ``1``, and
                                          selects which zocl device tree nodes
