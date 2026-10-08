@@ -6,7 +6,7 @@ Python bindings from source and installs them into the PYNQ image.
 `qemu.sh` runs inside the sdbuild container's aarch64 chroot and:
 
 - clones XRT at tag `202520.2.20.197` (Xilinx 2025.2 / XRT 2.20),
-- builds the embedded (`-edge`) variant for the zocl/DRM device path,
+- builds the embedded (`-edge`) Debug (`-dbg`) variant for the zocl/DRM device path,
 - enables the ARM64 AIE runtime used by Versal devices,
 - installs `libxrt_*` under `/opt/xilinx/xrt/` and registers it with
   `ldconfig`,
@@ -16,3 +16,6 @@ The XRT tag is kept in sync with the `zocl` kernel-module recipe
 (`sdbuild/boot/meta-pynq/recipes-xrt/zocl/`) so the userspace and
 kernel-side ABIs match. Build dependencies come from the base rootfs
 manifest (`sdbuild/ubuntu/noble/aarch64/multistrap.config`).
+
+The `xrt` package (`sdbuild/packages/xrt/`) is installed separately in
+STAGE4; it installs `zocl.ko` and the XRT environment setup script.
