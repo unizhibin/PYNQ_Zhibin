@@ -5,7 +5,7 @@
 from setuptools import setup
 
 
-with open("README.rst", encoding='utf-8') as fh:
+with open("README.md", encoding='utf-8') as fh:
     readme_lines = fh.readlines()[:]
 long_description = (''.join(readme_lines))
 

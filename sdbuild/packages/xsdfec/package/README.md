@@ -1,5 +1,4 @@
-`xsdfec` Package
-===================
+# `xsdfec` Package
 
 This package is not built in PYNQ 4.0.
 
@@ -7,16 +6,14 @@ This is a package implementing the drivers for RF Soft-Decision Forward Error
 Correction (SD-FEC) integrated block IP. This IP supports Low Density Parity
 Check (LDPC) decoding and encoding and Turbo code decoding. The LDPC codes
 used are highly configurable, and the specific code used can be specified on
-a codeword-by-codeword basis. More information about this IP can be found 
-`online <https://www.amd.com/en/products/adaptive-socs-and-fpgas/intellectual-property/sd-fec.html>`__.
+a codeword-by-codeword basis. More information about this IP can be found
+[online](https://www.amd.com/en/products/adaptive-socs-and-fpgas/intellectual-property/sd-fec.html).
 
-Usage
------
-
+## Usage
 
 The HWH file PYNQ framework has been using includes a lot of information
 about all of the available code parameters. This includes nested lists, etc.
-So we use `parser combinators <https://en.wikipedia.org/wiki/Parsec_(parser)>`__
+So we use [parser combinators](https://en.wikipedia.org/wiki/Parsec_(parser))
 to keep this managable.
 
 In our driver code, to round up the HWH parsing, we have defined the name,
@@ -28,11 +25,11 @@ C struct. Be very careful about garbage collection here! If we do not store a
 reference to the inner C arrays, they will be garbage collected and make the
 LDPC codes incorrect! We solve this with a
 weakref dict; you can check
-`details <https://cffi.readthedocs.io/en/latest/using.html#working-with-pointers-structures-and-arrays>`__
+[details](https://cffi.readthedocs.io/en/latest/using.html#working-with-pointers-structures-and-arrays)
 about the CFFI ownership model.
 
 Once all the above has been taken care of, we load the compiled `.so`
-version of the driver and define some helper functions to marshal data 
+version of the driver and define some helper functions to marshal data
 to/from the driver. We want a couple of things
 here:
 
@@ -42,19 +39,18 @@ here:
 This job is done by the `_safe_wrapper()`, `_pack_value()`, and
 `_unpack_value` methods. With these helpers in place, we can start defining
 the SD FEC driver itself. For initialisation, we parse parameters from the HWH
-file to populate an `XSdFec_Config` struct and pass this to the 
+file to populate an `XSdFec_Config` struct and pass this to the
 `XSdFecCfgInitialize` function. We also parse code parameter tables from the
-HWH file and keep them for later. The following C function prototypes have 
+HWH file and keep them for later. The following C function prototypes have
 been wrapped up by Python API:
 
-.. code-block:: c
-
-    XSdFecSetTurboParams(InstancePtr, ParamsPtr)
-    XSdFecAddLdpcParams(InstancePtr,
-        CodeId, SCOffset, LAOffset, QCOffset, ParamsPtr)
-    XSdFecShareTableSize(ParamsPtr, SCSizePtr, LASizePtr, QCSizePtr)
-    XSdFecInterruptClassifier(InstancePtr)
-
+```c
+XSdFecSetTurboParams(InstancePtr, ParamsPtr)
+XSdFecAddLdpcParams(InstancePtr,
+    CodeId, SCOffset, LAOffset, QCOffset, ParamsPtr)
+XSdFecShareTableSize(ParamsPtr, SCSizePtr, LASizePtr, QCSizePtr)
+XSdFecInterruptClassifier(InstancePtr)
+```
 
 As well as the 4 main functions above, there are also getters
 and setters for individual registers. We expose them in a data-driven way.

@@ -40,9 +40,11 @@ from xrfclk import set_ref_clks
 set_ref_clks(lmk_freq=100)
 ```
 
-You can also see [this forum post](https://forums.xilinx.com/t5/Evaluation-Boards/How-to-setup-ZCU111-RFSoC-DAC-clock/td-p/896221)
+You can also see [this forum post](https://adaptivesupport.amd.com/s/question/0D52E00006hpjOCSAY/how-to-setup-zcu111-rfsoc-dac-clock?language=en_US)
 for additional information on how to generate custom register values.
 
 Copyright (C) 2021 Xilinx, Inc
+
+Copyright (C) 2022-2026 Advanced Micro Devices, Inc. All rights reserved.
 
 SPDX-License-Identifier: BSD-3-Clause
