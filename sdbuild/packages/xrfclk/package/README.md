@@ -8,17 +8,15 @@ for the Xilinx Zynq RFSoC boards (e.g., ZCU111).
 For simple (safe) use, refer to `set_ref_clks()`.
 
 For RFSoC experts, you can specify custom clock frequencies, assuming you
-know what you're doing. In that case, you can leverage the following methods:
-
-1. `set_lmk04208_clks()` for boards with LMK04208.
-2. `set_lmk04832_clks()` for boards with LMK04832.
-3. `set_lmx2594_clks()` for boards with LMX2594.
+know what you're doing. In that case, pass them to `set_ref_clks()` through
+the `lmk_freq` and `lmx_freq` arguments. A frequency is only accepted if a
+matching register file exists (see "Register Values" below).
 
 For example, checking ZCU111 schematic, you should be able to find that the
 ZCU111 board has LMK04208 and LMX2594 chips. 
 
-For other boards you may also need to adjust the I2C and SPI addresses 
-specified in `src/xrfdc_clk.h`.
+For other boards, the LMK and LMX chips are found through the SPI nodes in
+the device tree, so make sure your device tree describes them.
 
 ## Register Values
 
