@@ -68,6 +68,7 @@ We define a big list of all of this info for each register then write
 a generic function to attach these properties to the SD FEC driver.
 
 Copyright (C) 2021 Xilinx, Inc
-Copyright (C) 2026 Advanced Micro Devices, Inc
+
+Copyright (C) 2022-2026 Advanced Micro Devices, Inc. All rights reserved.
 
 SPDX-License-Identifier: BSD-3-Clause
