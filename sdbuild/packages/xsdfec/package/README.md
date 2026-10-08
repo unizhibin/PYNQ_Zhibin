@@ -12,7 +12,7 @@ a codeword-by-codeword basis. More information about this IP can be found
 The HWH file PYNQ framework has been using includes a lot of information
 about all of the available code parameters. This includes nested lists, etc.
 So we use [parser combinators](https://en.wikipedia.org/wiki/Parsec_(parser))
-to keep this managable.
+to keep this manageable.
 
 In our driver code, to round up the HWH parsing, we have defined the name,
 C type, and parser combinator for each field we're interested in.
