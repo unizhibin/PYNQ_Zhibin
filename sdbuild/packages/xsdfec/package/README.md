@@ -1,7 +1,5 @@
 # `xsdfec` Package
 
-This package is not built in PYNQ 4.0.
-
 This is a package implementing the drivers for RF Soft-Decision Forward Error
 Correction (SD-FEC) integrated block IP. This IP supports Low Density Parity
 Check (LDPC) decoding and encoding and Turbo code decoding. The LDPC codes
