@@ -15,6 +15,16 @@ files to describe your own set of wifi networks and your wifi adapter.
   * `wifi.ko`: is an optional driver file. This lets you easily inject wifi
     drivers that are not in the mainline kernel.
 
+This package is not included in any board by default. To add it to an image,
+add `wifi_connect` to `STAGE4_PACKAGES_<BOARD>` in the board's `.spec` file.
+
+Note that the boot partition is assumed to be `/dev/mmcblk0p1` and is mounted
+at `/boot` when the package runs. `wifi.ko` is only loaded if
+`wpa_supplicant.conf` is also present, and it needs to be built for the kernel
+running on the board. This package uses `ifupdown` and `wpasupplicant`, so it
+is intended for the Ubuntu-based images and is not set up for PYNQ.remote,
+which uses `systemd-networkd`.
+
 ## Example `wpa_supplicant.conf` file
 
 Here is an example config file that describes two different networks:
