@@ -3,6 +3,9 @@
 This package runs a script on boot, allowing the user to get the board's IP address via a Grove OLED display.
 This is especially useful for hackathons, etc., where many PYNQ boards are connected to the same network.
 
+Note that this package is not included in any of the PYNQ images.
+This package is only supported on the ZCU104, as it relies on the ZCU104 base overlay (PMODB and BTN0).
+
 ## How to use
 
   * After boot, wait until the LEDs flash and then turn off
