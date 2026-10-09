@@ -17,7 +17,7 @@ sdbuild/packages/selftest/
 │   └── board_helpers.py       # overlay helpers for hardware tests
 ├── tests/bash/                # OS / image checks (sourced by run_test.sh)
 ├── tests/python/              # PYNQ / overlay checks (run as scripts)
-└── manifests/                 # optional defaults; board JSON installed at build time
+└── manifests/                 # not in source; created on the image by pre.sh, board JSON installed here
 ```
 
 During an image build, `pre.sh` installs this tree and copies
@@ -46,7 +46,7 @@ Each board provides `boards/<BOARD>/selftest.json`:
 ```json
 {
   "board": "MyBoard",
-  "defaults": { "hardware": false, "timeout": 30 },
+  "defaults": { "hardware": false},
   "tests": [
     { "id": "bash/resize", "name": "Root filesystem auto-resize" },
     {
@@ -64,7 +64,7 @@ Each board provides `boards/<BOARD>/selftest.json`:
 |-------|---------|
 | `id` | Test module path: `bash/<name>` → `tests/bash/<name>.sh`, `python/<name>` → `tests/python/<name>.py` |
 | `name` | Label printed in the run log (optional; defaults to `id`) |
-| `timeout` | Seconds before the test is killed (default 30) |
+| `timeout` | Seconds before the test is killed (default 30; `defaults.timeout` is not read) |
 | `hardware` | When true, skipped with `--no-peripherals` |
 | `params` | JSON object passed to Python tests (see below) |
 
